@@ -6,7 +6,7 @@ Created on Sun Aug 30 13:26:31 2020
 """
 
 """
-Modified Newton-Raphson model-the same tangent stiffness Kt is used in all iterations.
+Initial stiffness method-the same tangent stiffness Kt is used in all iterations.
 """
 
 import sympy
