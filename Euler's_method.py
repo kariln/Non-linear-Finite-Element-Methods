@@ -10,6 +10,7 @@ Euler's method
 """
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 def Euler(x0,y0,dx,dydx0,xn):
      x = x0;
@@ -38,7 +39,13 @@ def Euler(x0,y0,dx,dydx0,xn):
      return df
  
 def main():
-    Euler(1,0.1111,2,0.2469,9)
+    df = Euler(1,0.1111,2,0.2469,9)
+    fig = plt.figure()
+    plt.plot(df["x"],df["y"])
+    plt.title('Euler''s method')
+    plt.xlabel('P')
+    plt.ylabel('D')
+    plt.savefig('eulers.png', dpi=fig.dpi)
 main()
          
          
