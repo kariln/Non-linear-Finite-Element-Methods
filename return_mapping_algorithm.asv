@@ -48,35 +48,11 @@ for t=1:length(u)
        end
     else %plastic step, F_trial > 0, plastic multiplier, d_gamma >0
         if t == 1
-            gamma(t) = gamma0;
-            epsilon_p(t) = 0;
-            sigma(t) = sigma_trial;
-            alpha(t) = alpha0;
+            d_gamma = gamma0;
         else
-            d_gamma = F_trial/(E+(Kmod+Hmod));
-            sigma(t) = sigma_trial - d_gamma*E*sign(sigma_trial-alpha(t-1));
-            epsilon_p(t) = epsilon_p(t-1) + d_gamma*sign(sigma_trial-alpha(t-1));
-            alpha(t) = alpha(t-1)+d_gamma*Hmod*sign(sigma_trial-alpha(t-1));
-            gamma(t) = gamma(t-1) + d_gamma;
+            d_gamma = F_trial(t-1)/(E+(Kmod+Hmod));
         end
-    
+    sigma(t) = sigma_trial - d_gamma*E*sign(sigma_trial-alpa(t-1));
+    epsilon_p(t) = epsilon_p
     end  
 end
-force = sigma*A;
-figure(1)
-plot(force,u)
-xlabel('Force, N')
-ylabel('Displacement, u')
-
-figure(2)
-plot(epsilon,sigma)
-xlabel('Strain')
-ylabel('Stress')
-
-figure(3)
-plot(epsilon_p)
-ylabel('plastic strain')
-
-figure(4)
-plot(gamma)
-ylabel('Plastic multiplier')
