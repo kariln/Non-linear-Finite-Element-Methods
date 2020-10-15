@@ -45,8 +45,8 @@ def main():
     K = [[(k1+k2),-k2],[-k2,k2]]
     M = [[m1,0],[0,m2]]
     C = [[0, 0],[0,0]]
-    D0 = [1, 10]
-    dD0 = [0,0]
+    D0 = [[1], [10]]
+    dD0 = [[0],[0]]
     R_ext = [[0, 0],[0,0]]
     central_difference = Central_Differences(0.5,0, D0, dD0, K, M, C, R_ext)
 main()

@@ -7,7 +7,6 @@ Newmark methods
 """
 import numpy as np
 from numpy import linalg as LA
-import abc
 
 class Newmark:
     def __init__(self,gamma, beta, D0, dD0, K, M,C, R_ext):
@@ -23,8 +22,8 @@ class Newmark:
         self.dD = [dD0]
         
         #acceleration
-        self.ddD0 = 
-        self.ddD = []
+        self.ddD0 = LA.inv(M)*(R_ext - C*dD0 - K*D0)
+        self.ddD = [self.ddD0]
         
         #stiffness matrix
         self.K = K
@@ -169,9 +168,28 @@ class Newmark:
         D = self.get_D()[-1]
         dD = self.get_dD()[-1]
         ddD = self.get_ddD()[-1]
-        R_eff = R_ext + M*()
+        M = self.get_M()
+        C = self.get_C()
+        R_eff = R_ext + M*(a0*D+a2*dD + a3*ddD) + C*(a1*D + a4*dD + a5*ddD)
             
-
+    def get_D_history(self):
+        t = np.linspace(self.get_start_time(),self.get_end_time(),(self.get_start_time()-self.get_end_time())/self.get_dt())
+        D = self.get_D()
+        dD = self.get_dD()
+        ddD = self.get_ddD()
+        K_eff = self.get_K_eff()
+        a0 = self.get_integration_constants()['a0']
+        a2 = self.get_integration_constants()['a2']
+        a3 = self.get_integration_constants()['a3']
+        a6 = self.get_integration_constants()['a6']
+        a7 = self.get_integration_constants()['a7']
+        for i in range(1,len(t)):
+            R_eff = self.set_R_eff()
+            D.append(LA.inv(K_eff)*R_eff)
+            ddD.append(a0*(D[-1]-D[-2])-a2*dD[-1]-a3*ddD[-1])
+            dD.append(dD[-1] + a6*ddD[-2]+a7*ddD[-1])
+        return D
+            
 def main():
     k2 = 1
     k1 = 1*10**4
@@ -180,8 +198,8 @@ def main():
     K = [[(k1+k2),-k2],[-k2,k2]]
     M = [[m1,0],[0,m2]]
     C = [[0, 0],[0,0]]
-    D0 = [1, 10]
-    dD0 = [0,0]
+    D0 = [[1], [10]]
+    dD0 = [[0],[0]]
     R_ext = [[0, 0],[0,0]]
     trapezoidal = Newmark(0.5,0.25, D0, dD0, K, M, C,R_ext)
     damped_newmark = Newmark(0.6,0.3025, D0, dD0, K, M, C,R_ext)

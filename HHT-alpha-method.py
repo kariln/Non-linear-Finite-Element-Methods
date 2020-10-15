@@ -30,8 +30,8 @@ def main():
     K = [[(k1+k2),-k2],[-k2,k2]]
     M = [[m1,0],[0,m2]]
     C = [[0, 0],[0,0]]
-    D0 = [1, 10]
-    dD0 = [0,0]
+    D0 = [[1], [10]]
+    dD0 = [[0],[0]]
     R_ext = [[0, 0],[0,0]]
     HHT = HHT_alpha(0.81,0.422, D0, dD0, K, M, C,R_ext,-0.3)
 #Lag R_eff, transponere vektorene D, D0, dD0
